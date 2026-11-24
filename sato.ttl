@@ -1,0 +1,100 @@
+@prefix sato:    <https://w3id.org/sato#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix saref:   <https://saref.etsi.org/core/> .
+@prefix s4bldg:  <https://saref.etsi.org/saref4bldg/> .
+@prefix s4syst:  <https://saref.etsi.org/saref4syst/> .
+
+#################################################################
+#    Ontology header
+#################################################################
+sato: a owl:Ontology ;
+    rdfs:label     "SATO Application Ontology Extension"@en ;
+    rdfs:comment   "A lightweight application-ontology extension formalizing the computation concepts (Definition, Task) and relationships (hasKind, isDefinedBy, requires, hasDeployment) that are absent from SAREF, for use in the SATO Building Knowledge Model. It reuses and specializes SAREF, SAREF4BLDG and SAREF4SYST wherever those vocabularies already provide the needed semantics."@en ;
+    owl:imports    <https://saref.etsi.org/core/> ;
+    owl:versionIRI <https://w3id.org/sato/1.0.0> ;
+    dcterms:created "2025-01-01"^^xsd:date ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> .
+
+#################################################################
+#    Classes
+#################################################################
+sato:Definition a owl:Class ;
+    rdfs:label   "Definition"@en ;
+    rdfs:comment "A generic, reusable template that specifies what a computation requires in order to be instantiated. It is agnostic to the computation type - e.g. virtual sensors, assessments, KPIs, services, or any data-driven model or process."@en .
+
+sato:Task a owl:Class ;
+    rdfs:label   "Task"@en ;
+    rdfs:comment "A Definition that has been operationalised and instantiated: a concrete, running computation (e.g. a virtual sensor, assessment, KPI, service, or model execution) that produces results from data. Distinct from saref:Task, which denotes a device design goal."@en .
+
+#################################################################
+#    hasKind / isKindOf  - generic classification
+#    saref:hasDeviceKind is specialised as a sub-property of it.
+#################################################################
+sato:hasKind a owl:ObjectProperty ;
+    rdfs:label    "has kind"@en ;
+    rdfs:comment  "Relates an entity to the kind it is an instance of. Generic classification: the kind may be a saref:DeviceKind, a sato:Definition, or any other kind."@en ;
+    rdfs:range    [ a owl:Class ; owl:unionOf ( saref:DeviceKind sato:Definition ) ] ;
+    owl:inverseOf sato:isKindOf .
+
+sato:isKindOf a owl:ObjectProperty ;
+    rdfs:label    "is kind of"@en ;
+    rdfs:comment  "Relates a kind to the entities that are instances of it. Inverse of sato:hasKind."@en ;
+    rdfs:domain   [ a owl:Class ; owl:unionOf ( saref:DeviceKind sato:Definition ) ] .
+
+# SAREF alignment: device classification rolls up under the generic property.
+saref:hasDeviceKind rdfs:subPropertyOf sato:hasKind .
+
+#################################################################
+#    isDefinedBy / hasDefinition
+#    Binds a Task to the Definition it operationalises.
+#################################################################
+sato:isDefinedBy a owl:ObjectProperty ;
+    rdfs:label    "is defined by"@en ;
+    rdfs:comment  "Relates a Task to the Definition it operationalises. Distinct from rdfs:isDefinedBy."@en ;
+    rdfs:domain   sato:Task ;
+    rdfs:range    sato:Definition ;
+    owl:inverseOf sato:hasDefinition .
+
+sato:hasDefinition a owl:ObjectProperty ;
+    rdfs:label    "has definition"@en ;
+    rdfs:comment  "Relates a Definition to the Tasks that operationalise it. Inverse of sato:isDefinedBy."@en ;
+    rdfs:domain   sato:Definition ;
+    rdfs:range    sato:Task .
+
+#################################################################
+#    requires / isRequirementOf  - mandatory computation inputs
+#################################################################
+sato:requires a owl:ObjectProperty ;
+    rdfs:label    "requires"@en ;
+    rdfs:comment  "Relates a Task (or a Definition) to the entities it mandates as inputs in order to be operationalised or instantiated - e.g. the devices or definitions it depends on."@en ;
+    rdfs:domain   [ a owl:Class ; owl:unionOf ( sato:Task sato:Definition ) ] ;
+    rdfs:range    [ a owl:Class ; owl:unionOf ( saref:Device sato:Definition ) ] ;
+    owl:inverseOf sato:isRequirementOf .
+
+sato:isRequirementOf a owl:ObjectProperty ;
+    rdfs:label    "is requirement of"@en ;
+    rdfs:comment  "Relates an entity (device or definition) to the Tasks or Definitions that require it as a mandatory input. Inverse of sato:requires."@en ;
+    rdfs:domain   [ a owl:Class ; owl:unionOf ( saref:Device sato:Definition ) ] ;
+    rdfs:range    [ a owl:Class ; owl:unionOf ( sato:Task sato:Definition ) ] .
+
+#################################################################
+#    hasDeployment / isDeployedAt  - operational scope of a Task
+#    (Use this for Tasks instead of physical s4bldg containment.)
+#################################################################
+sato:isDeployedAt a owl:ObjectProperty ;
+    rdfs:label    "is deployed at"@en ;
+    rdfs:comment  "Relates a Task to the spatial context, system, or device at which it is deployed and running."@en ;
+    rdfs:domain   sato:Task ;
+    rdfs:range    [ a owl:Class ; owl:unionOf ( s4bldg:BuildingSpace s4bldg:Building s4syst:System saref:Device ) ] ;
+    rdfs:seeAlso  <http://www.w3.org/ns/ssn/Deployment> ;
+    owl:inverseOf sato:hasDeployment .
+
+sato:hasDeployment a owl:ObjectProperty ;
+    rdfs:label    "has deployment"@en ;
+    rdfs:comment  "Relates a spatial context, system, or device to the Tasks deployed and running at it. Inverse of sato:isDeployedAt."@en ;
+    rdfs:domain   [ a owl:Class ; owl:unionOf ( s4bldg:BuildingSpace s4bldg:Building s4syst:System saref:Device ) ] ;
+    rdfs:range    sato:Task .
