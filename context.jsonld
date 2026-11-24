@@ -1,0 +1,20 @@
+{
+  "@context": {
+    "sato":  "https://miracle-labmirx.github.io/sato-ontology/sato.ttl#",
+    "saref": "https://saref.etsi.org/core/",
+
+    "Definition": "sato:Definition",
+    "Task":       "sato:Task",
+
+    "hasKind":    { "@id": "sato:hasKind",    "@type": "@id" },
+    "isKindOf":   { "@id": "sato:isKindOf",   "@type": "@id" },
+    "isDefinedBy":{ "@id": "sato:isDefinedBy","@type": "@id" },
+    "hasDefinition": { "@id": "sato:hasDefinition", "@type": "@id" },
+    "requires":   { "@id": "sato:requires",   "@type": "@id" },
+    "isRequirementOf": { "@id": "sato:isRequirementOf", "@type": "@id" },
+    "isDeployedAt":{ "@id": "sato:isDeployedAt","@type": "@id" },
+    "hasDeployment": { "@id": "sato:hasDeployment", "@type": "@id" },
+
+    "hasDeviceKind": { "@id": "saref:hasDeviceKind", "@type": "@id" }
+  }
+}

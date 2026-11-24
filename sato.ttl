@@ -1,4 +1,4 @@
-@prefix sato:    <https://w3id.org/sato#> .
+@prefix sato:    <https://miracle-labmirx.github.io/sato-ontology/sato.ttl#> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
@@ -15,7 +15,7 @@ sato: a owl:Ontology ;
     rdfs:label     "SATO Application Ontology Extension"@en ;
     rdfs:comment   "A lightweight application-ontology extension formalizing the computation concepts (Definition, Task) and relationships (hasKind, isDefinedBy, requires, hasDeployment) that are absent from SAREF, for use in the SATO Building Knowledge Model. It reuses and specializes SAREF, SAREF4BLDG and SAREF4SYST wherever those vocabularies already provide the needed semantics."@en ;
     owl:imports    <https://saref.etsi.org/core/> ;
-    owl:versionIRI <https://w3id.org/sato/1.0.0> ;
+    owl:versionIRI <https://miracle-labmirx.github.io/sato-ontology/sato.ttl> ;
     dcterms:created "2025-01-01"^^xsd:date ;
     dcterms:license <https://creativecommons.org/licenses/by/4.0/> .
 
