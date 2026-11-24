@@ -49,18 +49,20 @@ sato:isKindOf a owl:ObjectProperty ;
 saref:hasDeviceKind rdfs:subPropertyOf sato:hasKind .
 
 #################################################################
-#    isDefinedBy / hasDefinition
+#    isDefinedBy / defines
 #    Binds a Task to the Definition it operationalises.
+#    Task isDefinedBy Definition   (Task -> Definition)
+#    Definition defines Task        (Definition -> Task, inverse)
 #################################################################
 sato:isDefinedBy a owl:ObjectProperty ;
     rdfs:label    "is defined by"@en ;
     rdfs:comment  "Relates a Task to the Definition it operationalises. Distinct from rdfs:isDefinedBy."@en ;
     rdfs:domain   sato:Task ;
     rdfs:range    sato:Definition ;
-    owl:inverseOf sato:hasDefinition .
+    owl:inverseOf sato:defines .
 
-sato:hasDefinition a owl:ObjectProperty ;
-    rdfs:label    "has definition"@en ;
+sato:defines a owl:ObjectProperty ;
+    rdfs:label    "defines"@en ;
     rdfs:comment  "Relates a Definition to the Tasks that operationalise it. Inverse of sato:isDefinedBy."@en ;
     rdfs:domain   sato:Definition ;
     rdfs:range    sato:Task .

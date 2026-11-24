@@ -14,7 +14,7 @@
         "hasKind": { "@id": "sato:hasKind", "@type": "@id" },
         "isKindOf": { "@id": "sato:isKindOf", "@type": "@id" },
         "isDefinedBy": { "@id": "sato:isDefinedBy", "@type": "@id" },
-        "hasDefinition": { "@id": "sato:hasDefinition", "@type": "@id" },
+        "defines": { "@id": "sato:defines", "@type": "@id" },
         "requires": { "@id": "sato:requires", "@type": "@id" },
         "isRequirementOf": { "@id": "sato:isRequirementOf", "@type": "@id" },
         "isDeployedAt": { "@id": "sato:isDeployedAt", "@type": "@id" },
